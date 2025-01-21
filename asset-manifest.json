@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/portfolio/static/css/main.becd3158.chunk.css",
-    "main.js": "/portfolio/static/js/main.02b863e3.chunk.js",
-    "main.js.map": "/portfolio/static/js/main.02b863e3.chunk.js.map",
-    "runtime~main.js": "/portfolio/static/js/runtime~main.8eb687c6.js",
-    "runtime~main.js.map": "/portfolio/static/js/runtime~main.8eb687c6.js.map",
-    "static/js/2.7f71dd09.chunk.js": "/portfolio/static/js/2.7f71dd09.chunk.js",
-    "static/js/2.7f71dd09.chunk.js.map": "/portfolio/static/js/2.7f71dd09.chunk.js.map",
-    "static/js/3.e13311ee.chunk.js": "/portfolio/static/js/3.e13311ee.chunk.js",
-    "static/js/3.e13311ee.chunk.js.map": "/portfolio/static/js/3.e13311ee.chunk.js.map",
-    "index.html": "/portfolio/index.html",
-    "precache-manifest.adad60f438409dd9449c89c9bc5ca5c8.js": "/portfolio/precache-manifest.adad60f438409dd9449c89c9bc5ca5c8.js",
-    "service-worker.js": "/portfolio/service-worker.js",
-    "static/css/main.becd3158.chunk.css.map": "/portfolio/static/css/main.becd3158.chunk.css.map"
+    "main.css": "/Portfolio/static/css/main.becd3158.chunk.css",
+    "main.js": "/Portfolio/static/js/main.02b863e3.chunk.js",
+    "main.js.map": "/Portfolio/static/js/main.02b863e3.chunk.js.map",
+    "runtime~main.js": "/Portfolio/static/js/runtime~main.690d6f5a.js",
+    "runtime~main.js.map": "/Portfolio/static/js/runtime~main.690d6f5a.js.map",
+    "static/js/2.7f71dd09.chunk.js": "/Portfolio/static/js/2.7f71dd09.chunk.js",
+    "static/js/2.7f71dd09.chunk.js.map": "/Portfolio/static/js/2.7f71dd09.chunk.js.map",
+    "static/js/3.e13311ee.chunk.js": "/Portfolio/static/js/3.e13311ee.chunk.js",
+    "static/js/3.e13311ee.chunk.js.map": "/Portfolio/static/js/3.e13311ee.chunk.js.map",
+    "index.html": "/Portfolio/index.html",
+    "precache-manifest.3c0e485bd0201da2670e3c1eff90020c.js": "/Portfolio/precache-manifest.3c0e485bd0201da2670e3c1eff90020c.js",
+    "service-worker.js": "/Portfolio/service-worker.js",
+    "static/css/main.becd3158.chunk.css.map": "/Portfolio/static/css/main.becd3158.chunk.css.map"
   }
 }
