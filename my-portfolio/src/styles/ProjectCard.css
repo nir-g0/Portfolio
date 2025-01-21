@@ -1,40 +1,65 @@
 .project-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-  }
-  
-  .project-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .project-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .project-card h2 {
-    margin: 10px 0;
-  }
-  
-  .project-card p {
-    padding: 0 10px;
-    font-size: 14px;
-  }
-  
-  .project-links a {
-    display: inline-block;
-    margin: 10px;
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .project-links a:hover {
-    text-decoration: underline;
-  }
-  
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: left; /* Ensures all text is left-aligned by default */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  padding: 20px; /* Add padding for better readability */
+}
+
+.project-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.project-card h2 {
+  margin: 10px 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.project-card p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.technical-section {
+  margin-top: 15px;
+}
+
+.technical-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  color: #222;
+}
+
+.technical-section ul {
+  padding-left: 20px; /* Indent the list */
+  list-style-type: disc;
+}
+
+.technical-section li {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.5; /* Add spacing between list items */
+}
+
+.project-links {
+  margin-top: 15px;
+}
+
+.project-links a {
+  display: inline-block;
+  margin-right: 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.project-links a:hover {
+  text-decoration: underline;
+}

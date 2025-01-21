@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import ProjectCard from "./components/ProjectCard";
 import Footer from "./components/Footer";
 import projects from "./data/projects";
-
+import './App.css'
 function App() {
   return (
     <div className="App">

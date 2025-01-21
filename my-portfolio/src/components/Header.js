@@ -1,10 +1,10 @@
 import React from "react";
-import "./Header.css";
+import '../App.css'
 
 function Header() {
   return (
     <header className="header">
-      <h1>👑 King's Portfolio</h1>
+      <h1>Nir Guberman's Project Portfolio</h1>
       <nav>
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
