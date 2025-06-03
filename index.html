@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nir Guberman – Software Engineer Portfolio</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <style>
+    /*— Ensure a consistent dark-blue background at all times —*/
+    html,
+    body {
+      background-color: #0f0f23;
+      /* dark fallback */
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      color: #e4e6ea;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow-x: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /*— Background Particles (subtle) —*/
+    .bg-particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 110%;
+      height: 110%;
+      pointer-events: none;
+      z-index: -2;
+      transform: translate(-5%, -5%);
+      transition: transform 0.1s ease-out;
+    }
+
+    .particle {
+      position: absolute;
+      background: linear-gradient(45deg, #64ffda, #00bcd4);
+      border-radius: 50%;
+      animation: float 30s linear infinite;
+      opacity: 0.1;
+      will-change: transform;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 0.1;
+      }
+
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /*— Hyperspace Lines on Scroll —*/
+    #hyperspace-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .hyperspace-star {
+      position: absolute;
+      background-color: #ffffff;
+      /* white line */
+      will-change: transform, opacity;
+      bottom: 0;
+    }
+
+    @keyframes shootUp {
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
+    /*— Navigation —*/
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(15, 15, 35, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #64ffda, #00bcd4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links li {
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-links li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .nav-links li:hover::before {
+      left: 100%;
+    }
+
+    .nav-links li:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .nav-links li.active {
+      background: rgba(100, 255, 218, 0.2);
+      color: #64ffda;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .mobile-menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #64ffda;
+      margin: 3px 0;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-toggle {
+        display: flex;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(15, 15, 35, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 1rem;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    /*— Main Content & Pages —*/
+    main {
+      margin-top: 80px;
+      min-height: calc(100vh - 80px);
+      position: relative;
+      z-index: 1;
+      background-color: transparent;
+      /* ensure no white flash */
+    }
+
+    .page {
+      display: none;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: transparent;
+      /* keep dark background visible */
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /*— Home / Hero —*/
+    .hero {
+      text-align: center;
+      padding: 4rem 0;
+      position: relative;
+      transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #64ffda, #00bcd4, #8c9eff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        filter: drop-shadow(0 0 20px rgba(100, 255, 218, 0.3));
+      }
+
+      to {
+        filter: drop-shadow(0 0 30px rgba(100, 255, 218, 0.6));
+      }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: linear-gradient(45deg, #64ffda, #00bcd4);
+      color: #0f0f23;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(100, 255, 218, 0.3);
+    }
+
+    /*— Section Headers —*/
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #64ffda, #8c9eff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-header p {
+      opacity: 0.7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /*— About Section —*/
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 3rem;
+      transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .about-image {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #64ffda, #8c9eff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: #0f0f23;
+      margin: 0 auto;
+      animation: pulse 1s ease-in-out infinite alternate;
+    }
+
+    .about-image-source {
+      display: block;
+      width: 225px;
+      height: auto;
+      border-radius: 100%;
+    }
+
+    @keyframes pulse {
+      from {
+        box-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+      }
+
+      to {
+        box-shadow: 0 0 50px rgba(100, 255, 218, 0.6);
+      }
+    }
+
+    .about-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      opacity: 0.9;
+    }
+
+    .skills-section {
+      margin-top: 3rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .skill-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .skill-item:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: scale(1.05);
+    }
+
+    /*— Projects Section —*/
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 75%);
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: all 0.3s ease, transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background-color: transparent;
+      /* ensure no white background */
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .project-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(45deg, #1a1a2e, #16213e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #64ffda;
+    }
+
+    .project-content {
+      padding: 1.5rem;
+    }
+
+    .project-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #64ffda;
+    }
+
+    .project-description {
+      opacity: 0.8;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-link {
+      color: #64ffda;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid #64ffda;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .project-link:hover {
+      background: #64ffda;
+      color: #0f0f23;
+      transform: translateY(-2px);
+    }
+
+    .learned-section {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(100, 255, 218, 0.1);
+    }
+
+    .learned-title {
+      color: #8c9eff;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .learned-text {
+      opacity: 0.7;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    /*— Blog Section —*/
+    .blog-grid {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .blog-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: all 0.3s ease, transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background-color: transparent;
+      /* ensure dark background behind */
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(100, 255, 218, 0.3);
+    }
+
+    .blog-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+      font-size: 0.9rem;
+    }
+
+    .blog-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #64ffda;
+    }
+
+    .blog-excerpt {
+      opacity: 0.8;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .read-more {
+      color: #8c9eff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .read-more:hover {
+      color: #64ffda;
+      transform: translateX(5px);
+    }
+
+    /*— Contact Section —*/
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .contact-item {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: all 0.3s ease, transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      background-color: transparent;
+      /* ensure dark visible */
+    }
+
+    .contact-item:hover {
+      transform: translateY(-5px);
+      border-color: rgba(100, 255, 218, 0.3);
+    }
+
+    .contact-icon {
+      font-size: 2rem;
+      color: #64ffda;
+      margin-bottom: 1rem;
+    }
+
+    .contact-title {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #8c9eff;
+    }
+
+    .contact-info {
+      opacity: 0.8;
+    }
+
+    .contact-link {
+      color: #64ffda;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .contact-link:hover {
+      color: #8c9eff;
+    }
+
+
+    /*— Responsive Adjustments —*/
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Subtle background particles -->
+  <div class="bg-particles" id="particles"></div>
+  <!-- Hyperspace lines container -->
+  <div id="hyperspace-bg"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo parallax-element" data-parallax-depth="0.02">Nir Guberman's SDE Portfolio</div>
+      <ul class="nav-links" id="navLinks">
+        <li class="nav-item active" data-page="home">Home</li>
+        <li class="nav-item" data-page="about">About</li>
+        <li class="nav-item" data-page="projects">Projects</li>
+        <li class="nav-item" data-page="blogs">Blog</li>
+        <li class="nav-item" data-page="contact">Contact</li>
+      </ul>
+      <div class="mobile-menu-toggle" id="mobileToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main>
+    <!-- Home Page -->
+    <div class="page active" id="home">
+      <div class="hero parallax-element" data-parallax-depth=".1">
+        <h1>Nir Guberman</h1>
+        <p>Software Developer | AI Developer </p>
+        <a href="#" class="cta-button" onclick="showPage('projects'); return false;">View My Work</a>
+      </div>
+    </div>
+
+    <!-- About Page -->
+    <div class="page" id="about">
+      <div class="section-header">
+        <h2>About Me</h2>
+        <p>Full Stack and AI Software Engineer</p>
+      </div>
+      <div class="about-content parallax-element" data-parallax-depth="0.01">
+        <div class="about-image">
+          <img src="assets/pfp.jpeg" class="about-image-source" alt="pfp" />
+        </div>
+        <div class="about-text">
+          <p>I'm a software engineer with a knack for building SaaS products that solve real-world pain points and
+            improve everyday workflows. I’m especially driven by opportunities to integrate artificial intelligence into
+            applications—leveraging cutting-edge technology to modernize and optimize daily tasks with real impact.</p>
+          <p>I graduated summa cum laude from San Jose State University, where I especially enjoyed courses like
+            Introduction to AI, Startup Bootcamp, and Software Projects. These classes fueled my interest in blending
+            smart systems with practical software.</p>
+          <p>Most recently, I interned at OneShot.ai, where I worked on a core AI
+            platform involving multi-agent LLM workflows, WebSocket integrations, and scalable full-stack systems. That
+            experience helped me transition from a naive junior dev to a more seasoned engineer that is still just as
+            excited to work with the best technology out there. </p>
+        </div>
+      </div>
+      <div class="skills-section">
+        <h3 style="text-align: center; margin-bottom: 2rem; color: #8c9eff;">Technical Skills</h3>
+        <div class="skills-grid">
+          <div class="skill-item">JavaScript</div>
+          <div class="skill-item">React</div>
+          <div class="skill-item">React Native</div>
+          <div class="skill-item">Node.js</div>
+          <div class="skill-item">Java</div>
+          <div class="skill-item">C</div>
+          <div class="skill-item">C++</div>
+          <div class="skill-item">Python</div>
+          <div class="skill-item">Machine Learning</div>
+          <div class="skill-item">Artificial Intelligence</div>
+          <div class="skill-item">PostgreSQL</div>
+          <div class="skill-item">MongoDB</div>
+          <div class="skill-item">MySQL</div>
+          <div class="skill-item">Git</div>
+          <div class="skill-item">AWS</div>
+          <div class="skill-item">Docker</div>
+          <div class="skill-item">Kubernetes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects Page -->
+    <div class="page" id="projects">
+      <div class="section-header">
+        <h2>Project Showcase</h2>
+        <p>A collection of projects and work experiences that demonstrate my skills and passion for development</p>
+      </div>
+      <div class="projects-grid" id="projectsGrid">
+        <div class="project-card parallax-element" data-parallax-depth="0.02">
+          <div class="project-image">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">Full Stack Software Engineer Intern - OneShot.ai</h3>
+            <p class="project-description">
+              Feb 2025 - May 2025
+            </p>
+            <div class="project-links">
+              <a href="https://www.oneshot.ai" class="project-link"><i class="fab fa-github"></i> Employer Link</a>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">My Experience:</div>
+              <li class="learned-text">Architected multi-AI-agent workflows, defining tool-driven handoffs among intake,
+                analysis, and execution agents to deliver integrated solutions within the core application.</li>
+              <li class="learned-text">Refactored core codebase to decouple SDKs, enabling seamless swaps without
+                frontend or type regressions—enhancing modularity and maintainability.
+              </li>
+              <li class="learned-text">Built a full-stack application with React, Node.js, Express, and MongoDB
+                following MVC and deployed on AWS Lightsail.</li>
+              <li class="learned-text">Implemented real-time WebSocket integration between LLMs and a voice agent to
+                support scalable automated voice sessions.</li>
+              <li class="learned-text">Constructed an ML pipeline by connecting webhooks to ingest real-time data and
+                use the data to generate insights that improved product usage.
+              </li>
+              <li class="learned-text">Created a programmatic video pipeline automating recording, editing, and LinkedIn
+                posting—cutting manual effort.
+              </li>
+
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">What I Learned:</div>
+              <div class="learned-text">
+                During my internship at OneShot.ai, I learned how to thrive in a fast-paced startup environment by
+                balancing speed with thoughtful planning. I gained hands-on experience across the full stack and worked
+                on core AI systems, which taught me how to break down complex problems, design scalable architectures,
+                and iterate quickly without sacrificing quality.
+                <p></p>
+                I learned the value of modular, flexible
+                code—especially when refactoring systems to support multiple AI providers—and saw how small technical
+                decisions can have a big impact on long-term maintainability.
+                <p></p>
+                Most importantly, I learned how to be
+                adaptable: wearing multiple hats, diving into unfamiliar tech, and contributing meaningfully across the
+                stack while collaborating closely with a small, focused team.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card parallax-element" data-parallax-depth="0.02">
+          <div class="project-image">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">PokerFusion</h3>
+            <p class="project-description">
+              A real-time, cross-platform poker game that integrates an interactive web table with a mobile interface
+              for dynamic player actions. Built with React (TypeScript), Node.js, Python, and React Native.
+            </p>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fab fa-github"></i> GitHub</a>
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">My Experience:</div>
+              <li class="learned-text">Led web (React) and backend development for a real-time poker platform (Python
+                Flask with MongoDB).
+              </li>
+              <li class="learned-text">Engineered a websocket solution to broadcast player moves and website functions,
+                ensuring seamless, synchronized gameplay.
+              </li>
+              <li class="learned-text">Designed a scalable backend architecture following the MVC pattern, leveraging
+                modular classes to efficiently manage concurrent players and maintain performance.
+              </li>
+              <li class="learned-text">Produced game logic to accurately simulate winning and losing conditions,
+                delivering a realistic experience.
+              </li>
+
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">What I Learned:</div>
+              <div class="learned-text">
+                Working on PokerFusion taught me how to build and manage real-time, cross-platform applications that
+                stay responsive and consistent under pressure.<p></p> I gained a strong understanding of WebSocket
+                communication—how to structure events, handle concurrency, and keep gameplay synchronized across web and
+                mobile clients. Building both the frontend and backend gave me insight into designing modular, reusable
+                APIs that work seamlessly across different tech stacks. <p></p>I also learned how to structure scalable
+                backend
+                systems that can support multiple active users without performance issues. This project pushed me to
+                think like a systems engineer—balancing logic, architecture, and user experience in a fast-moving,
+                multiplayer environment. </div>
+            </div>
+          </div>
+        </div>
+        <!-- Duplicate and modify above block to add more projects -->
+        <div class="project-card parallax-element" data-parallax-depth="0.02">
+          <div class="project-image">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">Prep.ai</h3>
+            <p class="project-description">
+              A full-stack web app that helps users prepare for interviews through dynamic AI generated, resume- and
+              position-tailored questions.
+            </p>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fab fa-github"></i> GitHub</a>
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">My Experience:</div>
+              <li class="learned-text">Engineered frontend using React.js and Node.js with AWS Lambda and AWS RDS for a
+                serverless, scalable backend.
+              </li>
+              <li class="learned-text">Implemented a secure authentication system with Argon2 password hashing and
+                JWT-based session management.
+              </li>
+              <li class="learned-text">Integrated OpenAI’s LLM API to dynamically generate customized interview
+                questions and actionable feedback based on each user’s resume and target role.
+              </li>
+              <li class="learned-text">Developed a reactive and modern UX with the use of Tailwind CSS libraries.
+              </li>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">What I Learned:</div>
+              <div class="learned-text">
+                Building this AI-powered interview prep app taught me how to design full-stack systems that are both
+                intelligent and scalable. I deepened my experience with serverless architecture by using AWS Lambda and
+                RDS, which showed me how to balance performance with cost-efficiency.<p></p> On the backend, I learned
+                how to build secure systems by implementing Argon2 for password hashing and JWT for session management.
+                Developing the resume parser gave me hands-on experience with NLP techniques, and integrating OpenAI’s
+                API taught me how to design LLM prompts that adapt to real user data. Overall, this project strengthened
+                my ability to build secure, responsive applications that deliver personalized, AI-driven experiences.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card parallax-element" data-parallax-depth="0.02">
+          <div class="project-image">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">ParlayProphet</h3>
+            <p class="project-description">
+              A machine learning tool to predict NBA betting outcomes using real player data and an intuitive
+              web-interface to make queries.
+            </p>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fab fa-github"></i> GitHub</a>
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">My Experience:</div>
+              <li class="learned-text">Implemented a machine learning pipeline in Python, utilizing pandas and
+                tensorflow to preprocess data and train models.
+
+              </li>
+              <li class="learned-text">Designed a feature system incorporating rolling averages, opponent defensive
+                ratings, and efficiency metrics for accuracy.
+
+              </li>
+              <li class="learned-text">Built an automated data pipeline to fetch and process real-time player stats,
+                ensuring up-to-date predictions for betting insights.
+              </li>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">What I Learned:</div>
+              <div class="learned-text">
+                Working on ParlayProphet taught me how to build end-to-end machine learning systems that combine data
+                engineering, modeling, and user interaction. I gained practical experience with feature engineering by
+                incorporating advanced basketball metrics like rolling averages and opponent defensive ratings to
+                improve prediction accuracy. <p></p>Developing the automated data pipeline helped me understand how to
+                manage
+                real-time data workflows and ensure model relevance. I also learned how to bridge the gap between
+                machine learning and usability by designing a simple web interface that made complex predictions
+                accessible to users. This project reinforced the importance of clean data, thoughtful features, and
+                user-centered design in applied ML.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card parallax-element" data-parallax-depth="0.02">
+          <div class="project-image">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">Atlas</h3>
+            <p class="project-description">
+              A real-time navigation app for compass-like directional guidance in areas where traditional map
+              applications are ineffective.
+
+            </p>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fab fa-github"></i> GitHub</a>
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">My Experience:</div>
+              <li class="learned-text">Collaborated within a 4-person React Native development team, leveraging
+                Firebase for real-time data storage, authentication, and state management.
+              </li>
+              <li class="learned-text">Integrated advanced Geolocation APIs alongside gyroscope data to enhance user
+                navigation accuracy and responsiveness.
+
+              </li>
+              <li class="learned-text">Enabling real-time user interaction and location sharing through server
+                broadcasting.
+
+              </li>
+              <li class="learned-text">Added real-time user interaction features, enabling location sharing and live
+                updates via server-side broadcasting.
+              </li>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">What I Learned:</div>
+              <div class="learned-text">
+                Working on Atlas taught me how to build real-time mobile applications that rely heavily on sensor
+                data and user interaction. I learned how to work effectively within a collaborative team using React
+                Native and Firebase, and how to integrate geolocation and gyroscope APIs to create accurate,
+                responsive navigation features.<p></p> Implementing real-time broadcasting for location sharing
+                helped me
+                understand the challenges of syncing live data between users and maintaining performance across
+                devices. This project deepened my skills in mobile development, real-time communication, and working
+                with hardware data to deliver a smooth, user-focused experience in environments where traditional
+                maps fall short.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card parallax-element" data-parallax-depth="0.02">
+          <div class="project-image">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">AthlEATe</h3>
+            <p class="project-description">
+              A personalized nutrition platoform leveraging AI to optimize athletes' performance and recovery through
+              intelligent meal planning.
+            </p>
+            <div class="learned-section">
+              <div class="learned-title">My Experience:</div>
+              <li class="learned-text">Founded a 3 person startup focused on delivering tailored nutrition plans for
+                athletes to optimize performance and recovery.
+
+              </li>
+              <li class="learned-text">Developed a React Native prototype integrating OpenAI's GPT API for intelligent
+                meal planning and fitness insights.
+              </li>
+              <li class="learned-text">Presented to four Silicon Valley executives, receiving validation on technical
+                feasibility and market potential.
+              </li>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">What I Learned:</div>
+              <div class="learned-text">
+                Working on AthlEATe was a pivotal early experience that helped me connect technical development with
+                real product thinking. As a co-founder, I wasn’t just building features—I was helping shape a vision. I
+                developed a React Native prototype that used OpenAI’s GPT API to generate personalized meal plans, which
+                gave me early exposure to integrating LLMs into user-facing apps. Presenting our product to Silicon
+                Valley executives and getting validation on its technical and market potential taught me how to
+                communicate value clearly and think critically about user needs.
+                <p></p>
+                This experience laid the groundwork for my internship at OneShot.ai, where I expanded on those skills by
+                building more advanced AI-driven workflows and contributing to real-world systems at scale. AthlEATe
+                helped me understand the importance of combining user experience, AI integration, and strong backend
+                architecture—insights I carried forward into designing multi-agent systems, real-time features, and
+                scalable infrastructure during my internship.
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card parallax-element" data-parallax-depth="0.02">
+          <div class="project-image">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">GymChimp</h3>
+            <p class="project-description">
+              A fitness tracking app for creating and editing workouts, real-time progress, and visualizing
+              performance through graphs.
+            </p>
+            <div class="project-links">
+              <a href="#" class="project-link"><i class="fab fa-github"></i> GitHub</a>
+              <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">My Experience:</div>
+              <li class="learned-text">Collaborated within a 3-person Flutter development team, leveraging
+                Firebase for NoSQL data storage, authentication, and state management.
+              </li>
+              <li class="learned-text">Engineered NoSQL data storage with Firebase for real-time data sync and
+                multi-device accessibility.
+              </li>
+              <li class="learned-text">Implemented interactive data visualization features to track user metrics
+                and analyze workout trends over time.
+              </li>
+              <li class="learned-text">Designed an intuitive interface for seamless workout creation, editing, and
+                tracking.
+              </li>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">What I Learned:</div>
+              <div class="learned-text">
+                As one of my early development experiences, working on GymChimp taught me the fundamentals of
+                building real-time mobile applications from the ground up. I gained practical experience with
+                Firebase for handling NoSQL data and syncing it across devices, which introduced me to core
+                backend concepts like data modeling and state management. <p></p>It was also my first time
+                implementing
+                data visualizations, helping me understand how to make user progress both trackable and engaging.
+                Collaborating in a small team helped me build confidence in working with others, using version
+                control effectively, and breaking down features into manageable tasks. This project laid the
+                groundwork for my future work in full-stack and real-time app development.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card parallax-element" data-parallax-depth="0.02">
+          <div class="project-image">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">Technical Automation Optimization</h3>
+            <p class="project-description">
+              Develop a Python automation bot with Selenium, to coordinate an 800 swimmer roster.
+            </p>
+            <div class="learned-section">
+              <div class="learned-title">My Experience:</div>
+              <li class="learned-text">Developed a Python automation bot with Selenium to optimize team
+                management and group organization for 800+ users.
+              </li>
+              <li class="learned-text">Scraped data from the team site to track swimmer distribution across
+                locations, enabling data-driven roster cap adjustments.
+
+              </li>
+              <li class="learned-text">Automated data entry and scheduling tasks to reduce manual workload and
+                improve efficiency.
+              </li>
+            </div>
+            <div class="learned-section">
+              <div class="learned-title">What I Learned:</div>
+              <div class="learned-text">
+                As an early development experience, this project showed me how technical automation can directly
+                improve real-world processes. By building a Python bot with Selenium, I helped streamline the
+                management of an 800+ swimmer roster, automating time-consuming tasks like data entry and
+                scheduling. <p></p>I learned how to scrape and process live data to make informed decisions—like
+                adjusting roster caps based on location distribution—which added measurable value to the
+                organization’s operations. This experience helped me understand how even small-scale automation
+                tools can have a big impact when aligned with business needs, and it sparked my interest in
+                using code to solve practical problems.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Duplicate and modify above block to add more projects -->
+      </div>
+    </div>
+
+    <!-- Blog Page -->
+    <div class="page" id="blogs">
+      <div class="section-header">
+        <h2>Blog</h2>
+        <p>Thoughts and insights from my journey as a software engineer</p>
+      </div>
+      <div class="blog-grid" id="blogGrid">
+        <!-- <article class="blog-card parallax-element" data-parallax-depth="0.015">
+          <div class="blog-meta">
+            <span><i class="fas fa-calendar"></i> December 15, 2024</span>
+            <span><i class="fas fa-clock"></i> 5 min read</span>
+            <span><i class="fas fa-tag"></i> React, Performance</span>
+          </div>
+          <h3 class="blog-title">Optimizing React Performance: Tips and Tricks</h3>
+          <p class="blog-excerpt">
+            React applications can sometimes feel sluggish, especially as they grow in complexity.
+            In this post, I'll share some practical techniques I've learned for optimizing React
+            performance, including memoization strategies, lazy loading, and bundle optimization...
+          </p>
+          <a href="#" class="read-more">Read More →</a>
+        </article> -->
+        <!-- Duplicate and modify above block to add more blog posts -->
+      </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div class="page" id="contact">
+      <div class="section-header">
+        <h2>Let's Connect</h2>
+        <p>Ready to collaborate or discuss opportunities? I'd love to hear from you</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-item parallax-element" data-parallax-depth="0.025">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <h3 class="contact-title">Email</h3>
+          <div class="contact-info">
+            <a href="mailto:ngub24@gmail.com" class="contact-link">ngub24@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item parallax-element" data-parallax-depth="0.02">
+          <div class="contact-icon"><i class="fab fa-linkedin"></i></div>
+          <h3 class="contact-title">LinkedIn</h3>
+          <div class="contact-info">
+            <a href="https://linkedin.com/in/nir-guberman" class="contact-link" target="_blank">/in/nir-guberman</a>
+          </div>
+        </div>
+        <div class="contact-item parallax-element" data-parallax-depth="0.015">
+          <div class="contact-icon"><i class="fab fa-github"></i></div>
+          <h3 class="contact-title">GitHub</h3>
+          <div class="contact-info">
+            <a href="https://github.com/nir-g0" class="contact-link" target="_blank">@nir-g0</a>
+          </div>
+        </div>
+        <div class="contact-item parallax-element" data-parallax-depth="0.01">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3 class="contact-title">Location</h3>
+          <div class="contact-info">San Jose, California</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // -------- Navigation functionality --------
+    function showPage(pageId)
+    {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active'));
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) {
+        targetPage.classList.add('active');
+      }
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => item.classList.remove('active'));
+      const activeNavItem = document.querySelector(`.nav-item[data-page="${pageId}"]`);
+      if (activeNavItem) {
+        activeNavItem.classList.add('active');
+      }
+      document.getElementById('navLinks').classList.remove('active');
+      window.scrollTo(0, 0);
+    }
+
+    document.addEventListener('DOMContentLoaded', function ()
+    {
+      // navigation click handlers
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item =>
+      {
+        item.addEventListener('click', function ()
+        {
+          const pageId = this.dataset.page;
+          showPage(pageId);
+        });
+      });
+
+      // mobile menu toggle
+      const mobileToggle = document.getElementById('mobileToggle');
+      const navLinks = document.getElementById('navLinks');
+      mobileToggle.addEventListener('click', function ()
+      {
+        navLinks.classList.toggle('active');
+      });
+
+      createParticles();         // subtle background particles
+      setupMouseParallax();      // parallax on mousemove
+      setupHyperspaceScroll();   // hyperspace on scroll
+    });
+
+    // -------- Subtle particles animation --------
+    function createParticles()
+    {
+      const particlesContainer = document.getElementById('particles');
+      if (!particlesContainer) return;
+      const particleCount = 30;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        const size = Math.random() * 3 + 1;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 30 + 's';
+        particle.style.animationDuration = (Math.random() * 15 + 15) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // -------- Mouse Parallax Effect --------
+    function setupMouseParallax()
+    {
+      const parallaxElements = document.querySelectorAll('.parallax-element');
+      if (parallaxElements.length === 0) return;
+      document.addEventListener('mousemove', function (e)
+      {
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const mouseX = (e.clientX - centerX) / centerX; // -1 to 1
+        const mouseY = (e.clientY - centerY) / centerY;
+        parallaxElements.forEach(el =>
+        {
+          const depth = parseFloat(el.dataset.parallaxDepth) || 1;
+          const moveX = mouseX * (depth * 50);
+          const moveY = mouseY * (depth * 50);
+          el.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+        });
+      });
+    }
+
+    // -------- Hyperspace Scroll Effect (random white lines) --------
+    const hyperspaceBg = document.getElementById('hyperspace-bg');
+    let lastScrollY = window.scrollY;
+
+    function createHyperspaceLine()
+    {
+      const line = document.createElement('div');
+      line.className = 'hyperspace-star';
+      const width = Math.random() * 2 + 1;       // 1px–3px
+      const height = Math.random() * 100 + 50;   // 50px–150px
+      line.style.width = `${width}px`;
+      line.style.height = `${height}px`;
+      const leftPos = Math.random() * 100;       // 0%–100%
+      line.style.left = `${leftPos}%`;
+      line.style.bottom = '0';
+      const duration = Math.random() * 0.5 + 0.3; // 0.3s–0.8s
+      line.style.animation = `shootUp ${duration}s linear`;
+      hyperspaceBg.appendChild(line);
+      line.addEventListener('animationend', () =>
+      {
+        line.remove();
+      });
+    }
+
+    function setupHyperspaceScroll()
+    {
+      if (!hyperspaceBg) return;
+      window.addEventListener('scroll', () =>
+      {
+        const scrollSpeed = Math.abs(window.scrollY - lastScrollY);
+        lastScrollY = window.scrollY;
+        // Generate up to ~15 lines based on speed
+        const lineCount = Math.min(Math.floor(scrollSpeed / 10), 15);
+        for (let i = 0; i < lineCount; i++) {
+          createHyperspaceLine();
+        }
+      }, { passive: true });
+    }
+
+    // -------- Dynamic Content Helpers --------
+    function addProject(title, description, imageIcon, links, learned)
+    {
+      const projectsGrid = document.getElementById('projectsGrid');
+      if (!projectsGrid) return;
+      const projectCard = document.createElement('div');
+      projectCard.className = 'project-card parallax-element';
+      projectCard.dataset.parallaxDepth = (Math.random() * 0.015 + 0.01).toFixed(3);
+
+      projectCard.innerHTML = `
+        <div class="project-image">
+          <i class="${imageIcon}"></i>
+        </div>
+        <div class="project-content">
+          <h3 class="project-title">${title}</h3>
+          <p class="project-description">${description}</p>
+          <div class="project-links">
+            ${links.map(link => `<a href="${link.url}" class="project-link" target="_blank"><i class="${link.icon}"></i> ${link.text}</a>`).join('')}
+          </div>
+          <div class="learned-section">
+            <div class="learned-title">What I Learned:</div>
+            <div class="learned-text">${learned}</div>
+          </div>
+        </div>
+      `;
+      projectsGrid.appendChild(projectCard);
+    }
+
+    function addBlogPost(title, excerpt, date, readTime, tags, link)
+    {
+      const blogGrid = document.getElementById('blogGrid');
+      if (!blogGrid) return;
+      const blogCard = document.createElement('article');
+      blogCard.className = 'blog-card parallax-element';
+      blogCard.dataset.parallaxDepth = (Math.random() * 0.01 + 0.01).toFixed(3);
+
+      blogCard.innerHTML = `
+        <div class="blog-meta">
+          <span><i class="fas fa-calendar"></i> ${date}</span>
+          <span><i class="fas fa-clock"></i> ${readTime}</span>
+          <span><i class="fas fa-tag"></i> ${tags}</span>
+        </div>
+        <h3 class="blog-title">${title}</h3>
+        <p class="blog-excerpt">${excerpt}</p>
+        <a href="${link}" class="read-more">Read More →</a>
+      `;
+      blogGrid.appendChild(blogCard);
+    }
+  </script>
+</body>
+
+</html>
